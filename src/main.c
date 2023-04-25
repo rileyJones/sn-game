@@ -1,29 +1,10 @@
 #include <SDL.h>
+#include "game.h"
 
-#define TARGET_TICK_DELTA 16
 int actual_tick_delta = TARGET_TICK_DELTA;
 
 // Scaling type: 0=strict, 1=normal, 2=stretched
 int scaling_type = 0;
-
-#define AREA_WIDTH 640
-#define AREA_HEIGHT 480
-#define WINDOW_SCALE 1
-
-#define MIN(A,B) ((A>B)?B:A)
-#define MAX(A,B) ((A>B)?A:B)
-
-
-void update(int ticks) {
-    return;
-}
-
-void render(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawPoint(renderer, 5, 5);
-}
 
 void main_render(SDL_Renderer* renderer, SDL_Window* window) {
     
@@ -80,10 +61,6 @@ void main_render(SDL_Renderer* renderer, SDL_Window* window) {
     SDL_DestroyTexture(texture);
 }
 
-void handle_events(SDL_Event* event) {
-    return;
-}
-
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("main 0: %s\n", SDL_GetError());
@@ -125,7 +102,7 @@ int main(int argc, char** argv) {
                         break;
                 }
             }
-            handle_events(&event);
+            handle_event(&event);
         } else {
             int ticks = SDL_GetTicks() - time;
             if(ticks >= actual_tick_delta) {
