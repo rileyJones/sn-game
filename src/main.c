@@ -70,6 +70,90 @@ void main_render(SDL_Renderer* renderer, SDL_Window* window) {
     SDL_DestroyTexture(texture);
 }
 
+void main_handle_event(SDL_Window* window, SDL_Event* event) {
+    if(event->type == SDL_KEYDOWN) {
+        switch(event->key.keysym.scancode) {
+            case SDL_SCANCODE_GRAVE:
+                window_scaling_type = (window_scaling_type + 1)%3;
+                return;
+            case SDL_SCANCODE_1:
+                window_scaling_type = 3;
+                window_fixed_scale = 1 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_2:
+                window_scaling_type = 3;
+                window_fixed_scale = 2 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_3:
+                window_scaling_type = 3;
+                window_fixed_scale = 3 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_4:
+                window_scaling_type = 3;
+                window_fixed_scale = 4 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_5:
+                window_scaling_type = 3;
+                window_fixed_scale = 5 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_6:
+                window_scaling_type = 3;
+                window_fixed_scale = 6 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_7:
+                window_scaling_type = 3;
+                window_fixed_scale = 7 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_8:
+                window_scaling_type = 3;
+                window_fixed_scale = 8 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_9:
+                window_scaling_type = 3;
+                window_fixed_scale = 9 * WINDOW_SCALE;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_0:
+                window_scaling_type = 3;
+                window_fixed_scale = 1;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
+                return;
+            case SDL_SCANCODE_RETURN:
+                if(!(event->key.keysym.mod & KMOD_ALT)) {
+                    break;
+                }
+            case SDL_SCANCODE_F11:
+                if(SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) {
+                    SDL_SetWindowFullscreen(window, 0);
+                } else {
+                    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+                }
+                return;
+            default:
+                break;
+        }
+    }
+    handle_event(event);
+}
+
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("main 0: %s\n", SDL_GetError());
@@ -102,87 +186,7 @@ int main(int argc, char** argv) {
             if(event.type == SDL_QUIT) {
                 break;
             }
-            if(event.type == SDL_KEYDOWN) {
-                switch(event.key.keysym.scancode) {
-                    case SDL_SCANCODE_GRAVE:
-                        window_scaling_type = (window_scaling_type + 1)%3;
-                        continue;
-                    case SDL_SCANCODE_1:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 1 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_2:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 2 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_3:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 3 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_4:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 4 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_5:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 5 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_6:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 6 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_7:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 7 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_8:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 8 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_9:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 9 * WINDOW_SCALE;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_0:
-                        window_scaling_type = 3;
-                        window_fixed_scale = 1;
-                        SDL_SetWindowMinimumSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        SDL_SetWindowSize(window, AREA_WIDTH*window_fixed_scale, AREA_HEIGHT*window_fixed_scale);
-                        continue;
-                    case SDL_SCANCODE_RETURN:
-                        if(!(event.key.keysym.mod & KMOD_ALT)) {
-                            break;
-                        }
-                    case SDL_SCANCODE_F11:
-                        if(SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) {
-                            SDL_SetWindowFullscreen(window, 0);
-                        } else {
-                            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
-                        }
-                        continue;
-                    default:
-                        break;
-                }
-            }
-            handle_event(&event);
+            main_handle_event(window, &event);
         } else {
             int ticks = SDL_GetTicks() - time;
             if(ticks >= actual_tick_delta) {
