@@ -1,10 +1,10 @@
 project_name = game
 
-run: build
-	./build/${project_name}
-
 build: cmake src
 	cmake --build build
+
+run: build
+	./build/${project_name}
 
 cmake: CMakeLists.txt
 	cd build; cmake .. 
