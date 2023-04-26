@@ -1,7 +1,7 @@
 .SUFFIXES: .c .o
 
 TARGET = game
-OBJECTS = main.o update.o render.o event.o
+OBJECTS = main.o update.o render.o event.o gamepad.o
 
 CC = gcc
 CFLAGS = -Wall -Werror -pedantic -g
@@ -26,3 +26,4 @@ main.o: main.c game.h
 update.o: update.c game.h
 render.o: render.c game.h
 event.o: event.c game.h
+gamepad.o: gamepad.c gamepad.h
