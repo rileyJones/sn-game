@@ -9,6 +9,7 @@ target_link_libraries(game ${SDL2_LIBRARIES})
 
 project(gamepad C)
 include_directories(gamepad ${SDL2_INCLUDE_DIRS})
-add_executable(gamepad src/gamepad/main.c src/gamepad/update.c src/gamepad/render.c src/gamepad/event.c src/gamepad.c src/gamepad/init.c)
+add_executable(gamepad src/gamepad/main.c src/gamepad/update.c src/gamepad/render.c
+    src/gamepad/event.c src/gamepad/gamepad.c src/gamepad/init.c)
 target_compile_options(gamepad PRIVATE -Wall -Werror -pedantic)
 target_link_libraries(gamepad ${SDL2_LIBRARIES})

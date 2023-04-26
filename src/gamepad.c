@@ -3,16 +3,6 @@
 
 void gamepad_create(gamepad* controller, SDL_JoystickID joystick_id) {
     controller->joystick_id = joystick_id;
-    Uint32 time_now = SDL_GetTicks();
-
-    memset(controller->button_pressed_timestamp, time_now, sizeof(Uint32) * 16 * GAMEPAD_HISTORY);
-    memset(controller->button_released_timestamp, time_now, sizeof(Uint32) * 16 * GAMEPAD_HISTORY);
-    memset(controller->button_state, SDL_RELEASED, sizeof(Uint8) * 16 * 3);
-    
-    memset(controller->key_buttons, SDL_SCANCODE_UNKNOWN, sizeof(SDL_Scancode) * 16);
-
-    memset(controller->axis_timestamp, time_now, sizeof(Uint32) * 7 * GAMEPAD_HISTORY);
-    memset(controller->axis_state, 0, sizeof(Sint16) * 7 * GAMEPAD_HISTORY);
 }
 
 void gamepad_set_key_button(
