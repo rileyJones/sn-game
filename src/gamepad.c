@@ -49,16 +49,17 @@ SDL_bool gamepad_button_repressed(gamepad* controller, Uint8 button, Uint32 delt
     if(!controller) return SDL_FALSE;
     if(button >= 16) return SDL_FALSE;
     if(GAMEPAD_HISTORY < 2) return SDL_FALSE;
-    
     return gamepad_button_pressed(controller, button) &&
-        (controller->button_pressed_timestamp[button][0] - controller->button_pressed_timestamp[button][1] >= delta);
+            SDL_TICKS_PASSED(
+                controller->button_pressed_timestamp[button][1] + delta, 
+                controller->button_pressed_timestamp[button][0]);
 }
 
 void gamepad_update(gamepad* controller) {
     if(!controller) return;
 
     memmove(controller->button_state[1], controller->button_state[0], sizeof(Uint8) * 2 * 16);
-    memset(controller->button_state[0], SDL_RELEASED, sizeof(Uint8) * 16);
+    //memset(controller->button_state[0], SDL_RELEASED, sizeof(Uint8) * 16);
     return;
 }
 

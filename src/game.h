@@ -2,7 +2,7 @@
 #define GAME_H
 #include "gamepad.h"
 
-#define TARGET_TICK_DELTA 16
+#define TARGET_TICK_DELTA 100
 
 #define AREA_WIDTH 640
 #define AREA_HEIGHT 480
