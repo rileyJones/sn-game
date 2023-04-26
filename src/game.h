@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+#include "gamepad.h"
 
 #define TARGET_TICK_DELTA 16
 
@@ -13,6 +14,8 @@
 void update(int ticks);
 void render(SDL_Renderer* renderer);
 void handle_event(SDL_Event* event);
+void init();
 
+extern gamepad game_controllers[1];
 
 #endif

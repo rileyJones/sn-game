@@ -179,6 +179,8 @@ int main(int argc, char** argv) {
         goto renderer_failed;
     }
 
+    init();
+
     SDL_Event event;
     Uint64 time = SDL_GetTicks();
     while(1) {
