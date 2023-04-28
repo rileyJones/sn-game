@@ -17,7 +17,7 @@ void main_render(SDL_Renderer* renderer, SDL_Window* window) {
             AREA_HEIGHT);
     SDL_SetRenderTarget(renderer, texture);
     
-    render(renderer);
+    render(renderer, texture);
     
     SDL_SetRenderTarget(renderer, NULL);
 
@@ -179,7 +179,7 @@ int main(int argc, char** argv) {
         goto renderer_failed;
     }
 
-    init();
+    init(renderer);
 
     SDL_Event event;
     Uint64 time = SDL_GetTicks();
