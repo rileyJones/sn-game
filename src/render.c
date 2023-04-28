@@ -17,13 +17,15 @@ void render_sprite(SDL_Renderer* renderer, tile_data* sprite) {
     if(sprite->flip_y) {
         flip = flip | SDL_FLIP_VERTICAL;
     }
-    SDL_Rect dest_rect;
-    dest_rect.x = sprite->x/(16*TARGET_TICK_DELTA); 
-    dest_rect.y = sprite->y/(16*TARGET_TICK_DELTA);
-    dest_rect.w = sprite->w;
-    dest_rect.h = sprite->h;
     
-    SDL_RenderCopyEx(renderer, sprite_textures[sprite->index], NULL, &dest_rect, sprite->rotation, NULL, flip);
+
+    SDL_Rect dest_rect = sprite->dst;
+    dest_rect.x /= 16*TARGET_TICK_DELTA; 
+    dest_rect.y /= 16*TARGET_TICK_DELTA;
+    
+    SDL_SetTextureAlphaMod(sprite_textures[sprite->index], sprite->alpha);
+
+    SDL_RenderCopyEx(renderer, sprite_textures[sprite->index], &sprite->src, &dest_rect, sprite->rotation/TARGET_TICK_DELTA, NULL, flip);
 }
 
 
@@ -34,11 +36,11 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
         for(int i = 0; i < 4; i++) {
             if(backgrounds[i].properties.active && backgrounds[i].properties.priority == p) {
                 printf("AAAA\n");
+                break;
             }
         }
-        for(int i = 0; i < 1024; i++) {
+        for(int i = 1023; i >= 0; i--) {
             if(sprites[i].active && sprites[i].priority == p) {
-                //printf("%d\n", i);
                 render_sprite(renderer, sprites+i);
             }
         }

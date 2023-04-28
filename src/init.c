@@ -18,13 +18,18 @@ void init(SDL_Renderer* renderer) {
     sprite_textures[0] = SDL_CreateTextureFromSurface(
             renderer,
             sprite_surface);
-    SDL_FreeSurface(sprite_surface);
     sprites[105].index = 0;
     sprites[105].active = SDL_TRUE;
-    sprites[105].x = 0;
-    sprites[105].y = 0;
-    sprites[105].w = 64;
-    sprites[105].h = 64;
+    sprites[105].src.x = 0;
+    sprites[105].src.y = 0;
+    sprites[105].src.w = sprite_surface->w;
+    sprites[105].src.h = sprite_surface->h;
+    sprites[105].dst.x = 0;
+    sprites[105].dst.y = 0;
+    sprites[105].dst.w = 64;
+    sprites[105].dst.h = 96;
+    sprites[105].alpha = 127;
+    SDL_FreeSurface(sprite_surface);
 }
 
 
