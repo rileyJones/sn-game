@@ -85,18 +85,20 @@ void render_bg(SDL_Renderer* renderer,background_data* background, int v_offset)
                 + AREA_WIDTH / 2
                 + x * background->properties.dst.w;
             
-            dst_rect.y = (background->properties.dst.y % background->properties.dst.h + background->properties.dst.h) 
+            dst_rect.y = ((background->properties.dst.y) % background->properties.dst.h + background->properties.dst.h) 
                 % background->properties.dst.h 
                 + AREA_HEIGHT / 2
                 + y * background->properties.dst.h
                 - v_offset;
+                
+            
 
             dst_rect.w = background->properties.dst.w;
             dst_rect.h = background->properties.dst.h;
-
+            
             SDL_Point rot_point;
-            rot_point.x = AREA_WIDTH  / 2 - dst_rect.x;
-            rot_point.y = AREA_HEIGHT / 2 - dst_rect.y - v_offset;
+            rot_point.x = AREA_WIDTH/2 - dst_rect.x;
+            rot_point.y = AREA_HEIGHT/2 - dst_rect.y - v_offset;
             
             SDL_RenderCopyEx(
                     renderer,
