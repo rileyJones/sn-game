@@ -32,5 +32,16 @@ void update(int ticks) {
         //sprites[105].rotation += ticks/TARGET_TICK_DELTA;
         backgrounds[0].properties.rotation += ticks/TARGET_TICK_DELTA;
     }
-    return;
+
+    if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) {
+        backgrounds[0].properties.dst.w *= 100.0 * ticks / 99 / TARGET_TICK_DELTA;
+        backgrounds[0].properties.dst.h *= 100.0 * ticks / 99 / TARGET_TICK_DELTA;
+    }
+
+    if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)) {
+        backgrounds[0].properties.dst.w *= 99.0 * ticks / 100 / TARGET_TICK_DELTA;
+        backgrounds[0].properties.dst.h *= 99.0 * ticks / 100 / TARGET_TICK_DELTA;
+    }
+
+
 }
