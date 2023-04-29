@@ -2,21 +2,23 @@
 #define RENDER_H
 
 typedef struct {
-    int index;
-    SDL_Rect src;
-    SDL_Rect dst;
-    SDL_bool dirty;
-    SDL_bool active;
-    SDL_bool flip_x, flip_y;
-    double rotation;
-    Uint8 alpha;
-    Uint8 priority;
+    int index;                  // TILE,     SPRITE
+    SDL_Rect src;               // TILE, BG, SPRITE
+    SDL_Rect dst;               //       BG, SPRITE
+    SDL_bool dirty;             // TILE, BG
+    SDL_bool active;            //       BG, SPRITE
+    SDL_bool flip_x, flip_y;    // TILE, BG, SPRITE
+    double rotation;            //       BG, SPRITE
+    Uint8 alpha;                //       BG, SPRITE
+    Uint8 priority;             //       BG, SPRITE
 } tile_data;
 
 typedef struct {
     SDL_Texture** textures;
+    SDL_Texture* tex;           // INTERNAL USE ONLY
     tile_data* data;
-    SDL_bool dirty;
+    SDL_Rect tile;              // W+H, NO X+Y
+    SDL_Rect map;               // W+H, NO X+Y
     tile_data properties;
 } background_data;
 

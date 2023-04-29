@@ -30,6 +30,48 @@ void init(SDL_Renderer* renderer) {
     sprites[105].dst.h = 96;
     sprites[105].alpha = 127;
     SDL_FreeSurface(sprite_surface);
+
+
+
+    backgrounds[0].textures = malloc(sizeof(SDL_Texture*) * 1);
+    SDL_Surface* background_surface = SDL_LoadBMP("data/tiles.bmp");
+    backgrounds[0].textures[0] = SDL_CreateTextureFromSurface(renderer, background_surface);
+    backgrounds[0].data = malloc(sizeof(tile_data) * 16 * 16);
+    for(int x = 0; x < 16; x++) {
+        for(int y = 0; y < 16; y++) {
+            backgrounds[0].data[x+16*y].index = 0;
+            if(x == 0 || y == 0) {
+                backgrounds[0].data[x+16*y].src.x = 0;
+                backgrounds[0].data[x+16*y].src.y = 16;
+            } else {
+                backgrounds[0].data[x+16*y].src.x = 198;
+                backgrounds[0].data[x+16*y].src.y = 16;
+            }
+            backgrounds[0].data[x+16*y].src.w = 16;
+            backgrounds[0].data[x+16*y].src.h = 16;
+            backgrounds[0].data[x+16*y].dirty = SDL_TRUE;
+            backgrounds[0].data[x+16*y].flip_x = SDL_FALSE;
+            backgrounds[0].data[x+16*y].flip_y = SDL_FALSE;
+        }
+    }
+    backgrounds[0].tile.w = 16;
+    backgrounds[0].tile.h = 16;
+    backgrounds[0].map.w = 16;
+    backgrounds[0].map.h = 16;
+    backgrounds[0].properties.src.x = 0;
+    backgrounds[0].properties.src.y = 0;
+    backgrounds[0].properties.src.w = 16*16;
+    backgrounds[0].properties.src.h = 16*16;
+    backgrounds[0].properties.dst.x = 100;
+    backgrounds[0].properties.dst.y = 100;
+    backgrounds[0].properties.dst.w = 1*16*16;
+    backgrounds[0].properties.dst.h = 1*16*16;
+    backgrounds[0].properties.dirty = SDL_TRUE;
+    backgrounds[0].properties.active = SDL_TRUE;
+    backgrounds[0].properties.flip_x = SDL_FALSE;
+    backgrounds[9].properties.flip_y = SDL_FALSE;
+    backgrounds[0].properties.alpha = 255;
+    backgrounds[0].properties.priority = 2;
 }
 
 
