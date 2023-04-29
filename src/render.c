@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "render.h"
+#include "game.h"
 
 
 
@@ -36,11 +37,13 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                     if(backgrounds[i].data[index].flip_y) {
                         flip = flip | SDL_FLIP_VERTICAL;
                     }
+
                     SDL_Rect draw_dst;
                     draw_dst.x = x * backgrounds[i].tile.w;
                     draw_dst.y = y * backgrounds[i].tile.h;
                     draw_dst.w = backgrounds[i].tile.w;
                     draw_dst.h = backgrounds[i].tile.h;
+
                     SDL_RenderCopyEx(
                             renderer, 
                             backgrounds[i].textures[backgrounds[i].data[index].index],
@@ -67,15 +70,42 @@ void render_bg(SDL_Renderer* renderer,background_data* background) {
     if(background->properties.flip_y) {
         flip = flip | SDL_FLIP_VERTICAL;
     }
+
     SDL_SetTextureAlphaMod(background->tex, background->properties.alpha);
-    SDL_RenderCopyEx(
-            renderer,
-            background->tex,
-            &background->properties.src,
-            &background->properties.dst,
-            background->properties.rotation,
-            NULL,
-            flip);
+    
+    double size = sqrt(AREA_WIDTH*AREA_WIDTH + AREA_HEIGHT*AREA_HEIGHT * 1.0);
+    double off_x = size / background->properties.dst.w / 2;
+    double off_y = size / background->properties.dst.h / 2;
+    for(int x = -off_x - 2; x <= off_x; x++) {
+        for(int y = -off_y - 2; y <= off_y; y++) {
+            SDL_Rect dst_rect;
+            dst_rect.x = (background->properties.dst.x % background->properties.dst.w + background->properties.dst.w) 
+                % background->properties.dst.w 
+                + AREA_WIDTH / 2
+                + x * background->properties.dst.w;
+            
+            dst_rect.y = (background->properties.dst.y % background->properties.dst.h + background->properties.dst.h) 
+                % background->properties.dst.h 
+                + AREA_HEIGHT / 2
+                + y * background->properties.dst.h;
+
+            dst_rect.w = background->properties.dst.w;
+            dst_rect.h = background->properties.dst.h;
+
+            SDL_Point rot_point;
+            rot_point.x = AREA_WIDTH  / 2 - dst_rect.x;
+            rot_point.y = AREA_HEIGHT / 2 - dst_rect.y;
+            
+            SDL_RenderCopyEx(
+                    renderer,
+                    background->tex,
+                    &background->properties.src,
+                    &dst_rect,
+                    background->properties.rotation,
+                    &rot_point,
+                    flip);
+        }
+    }
 }
 
 
@@ -104,6 +134,7 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
         for(int i = 0; i < 4; i++) {
             if(backgrounds[i].properties.active && backgrounds[i].properties.priority == p) {
                 render_bg(renderer, backgrounds+i);
+                break;
             }
         }
         for(int i = 1023; i >= 0; i--) {
