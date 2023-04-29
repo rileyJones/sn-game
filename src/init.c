@@ -4,6 +4,9 @@
 gamepad game_controllers[1];
 
 void init(SDL_Renderer* renderer) {
+
+    hdma = 200;
+
     gamepad_create(game_controllers, -1);
     gamepad_set_key_button(game_controllers,     SDL_SCANCODE_UP,       SDL_CONTROLLER_BUTTON_DPAD_UP);
     gamepad_set_key_button(game_controllers,   SDL_SCANCODE_DOWN,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);

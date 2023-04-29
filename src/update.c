@@ -1,6 +1,22 @@
 #include <SDL.h>
 #include "game.h"
 
+void hdma_callback() {
+    if(hdma >= 200) {
+        backgrounds[0].properties.active = SDL_TRUE;
+        backgrounds[0].properties.dst.w = hdma * hdma / 200;
+        hdma++;
+        if(hdma >= AREA_HEIGHT) {
+            hdma = 0;
+        }
+    } else if(hdma == 0) {
+        backgrounds[0].properties.active = SDL_FALSE;
+        hdma = 200;
+    }
+}
+
+
+
 void update(int ticks) {
     gamepad_update(game_controllers);
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_UP)) {

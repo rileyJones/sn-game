@@ -7,6 +7,7 @@
 SDL_Texture** sprite_textures;
 tile_data sprites[1024];
 background_data backgrounds[4];
+int hdma = -1;
 
 
 void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
@@ -62,7 +63,7 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
     SDL_SetRenderTarget(renderer, output);
 }
 
-void render_bg(SDL_Renderer* renderer,background_data* background) {
+void render_bg(SDL_Renderer* renderer,background_data* background, int v_offset) {
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if(background->properties.flip_x) {
         flip = flip | SDL_FLIP_HORIZONTAL;
@@ -87,14 +88,15 @@ void render_bg(SDL_Renderer* renderer,background_data* background) {
             dst_rect.y = (background->properties.dst.y % background->properties.dst.h + background->properties.dst.h) 
                 % background->properties.dst.h 
                 + AREA_HEIGHT / 2
-                + y * background->properties.dst.h;
+                + y * background->properties.dst.h
+                - v_offset;
 
             dst_rect.w = background->properties.dst.w;
             dst_rect.h = background->properties.dst.h;
 
             SDL_Point rot_point;
             rot_point.x = AREA_WIDTH  / 2 - dst_rect.x;
-            rot_point.y = AREA_HEIGHT / 2 - dst_rect.y;
+            rot_point.y = AREA_HEIGHT / 2 - dst_rect.y - v_offset;
             
             SDL_RenderCopyEx(
                     renderer,
@@ -109,7 +111,7 @@ void render_bg(SDL_Renderer* renderer,background_data* background) {
 }
 
 
-void render_sprite(SDL_Renderer* renderer, tile_data* sprite) {
+void render_sprite(SDL_Renderer* renderer, tile_data* sprite, int v_offset) {
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if(sprite->flip_x) {
         flip = flip | SDL_FLIP_HORIZONTAL;
@@ -117,10 +119,16 @@ void render_sprite(SDL_Renderer* renderer, tile_data* sprite) {
     if(sprite->flip_y) {
         flip = flip | SDL_FLIP_VERTICAL;
     }
+
+    SDL_Rect dst_rect;
+    dst_rect.x = sprite->dst.x;
+    dst_rect.y = sprite->dst.y - v_offset;
+    dst_rect.w = sprite->dst.w;
+    dst_rect.h = sprite->dst.h;
     
     SDL_SetTextureAlphaMod(sprite_textures[sprite->index], sprite->alpha);
 
-    SDL_RenderCopyEx(renderer, sprite_textures[sprite->index], &sprite->src, &sprite->dst, sprite->rotation, NULL, flip);
+    SDL_RenderCopyEx(renderer, sprite_textures[sprite->index], &sprite->src, &dst_rect, sprite->rotation, NULL, flip);
 }
 
 
@@ -129,19 +137,58 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
     SDL_RenderClear(renderer);
 
     prerender_bgs(renderer, output);
+    int line_num = 0;
+    if(hdma == 0) {
+        hdma_callback();
+    }
+    while(line_num < AREA_HEIGHT) {
+        int end_line;
+        if(hdma > line_num) {
+            end_line = hdma;
+        } else {
+            end_line = AREA_HEIGHT;
+        }
+        SDL_Texture* internal_texture = SDL_CreateTexture(
+                renderer,
+                SDL_PIXELFORMAT_RGBA32,
+                SDL_TEXTUREACCESS_TARGET,
+                AREA_WIDTH,
+                end_line - line_num);
+        SDL_SetRenderTarget(renderer, internal_texture);
+        SDL_RenderClear(renderer);
+        for(int p = 3; p >= 0; p--) {
+            for(int i = 0; i < 4; i++) {
+                if(backgrounds[i].properties.active && backgrounds[i].properties.priority == p) {
+                    render_bg(renderer, backgrounds+i, line_num);
+                    break;
+                }
+            }
+            for(int i = 1023; i >= 0; i--) {
+                if(sprites[i].active && sprites[i].priority == p) {
+                    render_sprite(renderer, sprites+i, line_num);
+                }
+            }
+        }
 
-    for(int p = 3; p >= 0; p--) {
-        for(int i = 0; i < 4; i++) {
-            if(backgrounds[i].properties.active && backgrounds[i].properties.priority == p) {
-                render_bg(renderer, backgrounds+i);
-                break;
-            }
+        SDL_Rect dst_rect;
+        dst_rect.x = 0;
+        dst_rect.y = line_num;
+        dst_rect.w = AREA_WIDTH;
+        dst_rect.h = end_line - line_num;
+        
+        SDL_SetRenderTarget(renderer, output);
+        SDL_RenderCopy(
+                renderer,
+                internal_texture,
+                NULL,
+                &dst_rect);
+        
+        SDL_DestroyTexture(internal_texture);
+
+        if(end_line == hdma) {
+            hdma_callback();
         }
-        for(int i = 1023; i >= 0; i--) {
-            if(sprites[i].active && sprites[i].priority == p) {
-                render_sprite(renderer, sprites+i);
-            }
-        }
+        line_num = end_line;
     }
 }
 
