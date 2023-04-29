@@ -19,7 +19,7 @@ void init(SDL_Renderer* renderer) {
     gamepad_set_key_button(game_controllers,      SDL_SCANCODE_S, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 
     sprite_textures = malloc(sizeof(SDL_Texture*) * 16);
-    SDL_Surface* sprite_surface = SDL_LoadBMP("data/test.bmp");
+    SDL_Surface* sprite_surface = SDL_LoadBMP("src/render/data/test.bmp");
     sprite_textures[0] = SDL_CreateTextureFromSurface(
             renderer,
             sprite_surface);
@@ -39,7 +39,7 @@ void init(SDL_Renderer* renderer) {
 
 
     backgrounds[0].textures = malloc(sizeof(SDL_Texture*) * 1);
-    SDL_Surface* background_surface = SDL_LoadBMP("data/tiles.bmp");
+    SDL_Surface* background_surface = SDL_LoadBMP("src/render/data/tiles.bmp");
     backgrounds[0].textures[0] = SDL_CreateTextureFromSurface(renderer, background_surface);
     backgrounds[0].data = malloc(sizeof(tile_data) * 16 * 16);
     for(int x = 0; x < 16; x++) {
