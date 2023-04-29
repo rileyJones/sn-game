@@ -13,3 +13,10 @@ add_executable(gamepad src/gamepad/main.c src/gamepad/update.c src/gamepad/rende
     src/gamepad/event.c src/gamepad/gamepad.c src/gamepad/init.c)
 target_compile_options(gamepad PRIVATE -Wall -Werror -pedantic)
 target_link_libraries(gamepad ${SDL2_LIBRARIES})
+
+project(render C)
+include_directories(render ${SDL2_INCLUDE_DIRS})
+add_executable(render src/render/event.c src/render/gamepad.c 
+	src/render/init.c src/render/main.c src/render/render.c src/render/update.c)
+target_compile_options(render PRIVATE -Wall -Werror -pedantic)
+target_link_libraries(render ${SDL2_LIBRARIES})

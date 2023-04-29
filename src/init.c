@@ -1,7 +1,8 @@
 #include <SDL.h>
 #include "game.h"
 
-void init() {
+
+void init(SDL_Renderer* renderer) {
     return;
 }
 

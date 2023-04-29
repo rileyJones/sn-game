@@ -1,3 +1,5 @@
 *.o
 game
 build
+data
+*.swp
