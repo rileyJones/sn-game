@@ -74,7 +74,10 @@ void render_bg(SDL_Renderer* renderer,background_data* background, int v_offset)
 
     SDL_SetTextureAlphaMod(background->tex, background->properties.alpha);
     
-    double size = sqrt(AREA_WIDTH*AREA_WIDTH + AREA_HEIGHT*AREA_HEIGHT * 1.0);
+    double size = SDL_sqrt(AREA_WIDTH*AREA_WIDTH + AREA_HEIGHT*AREA_HEIGHT * 1.0)/2
+        + SDL_sqrt(
+                (background->center.x-AREA_WIDTH/2.0)*(background->center.x-AREA_WIDTH/2.0)
+                + (background->center.y-AREA_HEIGHT/2.0)*(background->center.y-AREA_HEIGHT/2.0));
 
     double size_x = size / background->properties.dst.w;
     double size_y = size / background->properties.dst.h;
