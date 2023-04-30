@@ -63,7 +63,9 @@ void init(SDL_Renderer* renderer) {
     backgrounds[0].tile.h = 16;
     backgrounds[0].map.w = 16;
     backgrounds[0].map.h = 16;
-    backgrounds[0].properties.src.x = 0;
+    backgrounds[0].center.x = AREA_WIDTH/2 * 2;
+    backgrounds[0].center.y = AREA_HEIGHT/2 * 2;
+    backgrounds[0].properties.src.x =  0;
     backgrounds[0].properties.src.y = 0;
     backgrounds[0].properties.src.w = 16*16;
     backgrounds[0].properties.src.h = 16*16;

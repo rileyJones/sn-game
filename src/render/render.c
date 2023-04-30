@@ -75,41 +75,46 @@ void render_bg(SDL_Renderer* renderer,background_data* background, int v_offset)
     SDL_SetTextureAlphaMod(background->tex, background->properties.alpha);
     
     double size = sqrt(AREA_WIDTH*AREA_WIDTH + AREA_HEIGHT*AREA_HEIGHT * 1.0);
-    double off_x = size / background->properties.dst.w / 2;
-    double off_y = size / background->properties.dst.h / 2;
-    for(int x = -off_x - 2; x <= off_x; x++) {
-        for(int y = -off_y - 2; y <= off_y; y++) {
-            SDL_Rect dst_rect;
-            dst_rect.x = (background->properties.dst.x % background->properties.dst.w + background->properties.dst.w) 
-                % background->properties.dst.w 
-                + AREA_WIDTH / 2
-                + x * background->properties.dst.w;
-            
-            dst_rect.y = ((background->properties.dst.y) % background->properties.dst.h + background->properties.dst.h) 
-                % background->properties.dst.h 
-                + AREA_HEIGHT / 2
-                + y * background->properties.dst.h
-                - v_offset;
-                
-            
 
-            dst_rect.w = background->properties.dst.w;
-            dst_rect.h = background->properties.dst.h;
+    double size_x = size / background->properties.dst.w;
+    double size_y = size / background->properties.dst.h;
+
+    SDL_Point draw_origin;
+    draw_origin.x = ((background->properties.dst.x % background->properties.dst.w + background->properties.dst.w) 
+         % background->properties.dst.w);
+    draw_origin.y = ((background->properties.dst.y % background->properties.dst.h + background->properties.dst.h) 
+         % background->properties.dst.h);
+    
+    for(int x = -size_x - 1; x <= size_x+2; x++) {
+        for(int y = -size_y - 1; y <= size_y+2; y++) {
+            SDL_Rect dstrect;
+            dstrect.x = (x * background->properties.src.w - background->center.x)
+                * background->properties.dst.w / background->properties.src.w
+                + background->center.x
+                + draw_origin.x;
+            dstrect.y = (y * background->properties.src.h - background->center.y)
+                * background->properties.dst.h / background->properties.src.h
+                + background->center.y
+                + draw_origin.y
+                - v_offset;
+            dstrect.w = background->properties.dst.w;
+            dstrect.h = background->properties.dst.h;
             
-            SDL_Point rot_point;
-            rot_point.x = AREA_WIDTH/2 - dst_rect.x;
-            rot_point.y = AREA_HEIGHT/2 - dst_rect.y - v_offset;
-            
+            SDL_Point center;
+            center.x = background->center.x - dstrect.x;
+            center.y = background->center.y - dstrect.y - v_offset;
+
             SDL_RenderCopyEx(
                     renderer,
                     background->tex,
                     &background->properties.src,
-                    &dst_rect,
+                    &dstrect,
                     background->properties.rotation,
-                    &rot_point,
+                    &center,
                     flip);
         }
     }
+
 }
 
 

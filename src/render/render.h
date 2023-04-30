@@ -19,6 +19,7 @@ typedef struct {
     tile_data* data;
     SDL_Rect tile;              // W+H, NO X+Y
     SDL_Rect map;               // W+H, NO X+Y
+    SDL_Point center;
     tile_data properties;
 } background_data;
 

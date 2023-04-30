@@ -12,9 +12,11 @@ void hdma_callback() {
         backgrounds[0].properties.active = SDL_TRUE;
         backgrounds[0].properties.dst.w = (3*hdma - 590);
         backgrounds[0].properties.dst.h = (3*hdma - 590);
-        backgrounds[0].properties.dst.x = movement_x*backgrounds[0].properties.dst.w/16/16;
-        backgrounds[0].properties.dst.y = movement_y*backgrounds[0].properties.dst.h/16/16;
-        hdma++;
+        //backgrounds[0].properties.dst.x = movement_x*backgrounds[0].properties.dst.w/16/16;
+        //backgrounds[0].properties.dst.y = movement_y*backgrounds[0].properties.dst.h/16/16;
+        //hdma++;
+        backgrounds[0].properties.dst.x = movement_x;
+        backgrounds[0].properties.dst.y = movement_y;
         if(hdma == AREA_HEIGHT) {
             hdma = 0;
         }
@@ -30,12 +32,12 @@ void update(int ticks) {
     gamepad_update(game_controllers);
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_UP)) {
         //sprites[105].dst.y -= 24*ticks/TARGET_TICK_DELTA/16;
-        movement_y += 1 * 24*ticks/TARGET_TICK_DELTA/16;
+        movement_y -= 24*ticks/TARGET_TICK_DELTA/16;
     }
     
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
         //sprites[105].dst.y += 24*ticks/TARGET_TICK_DELTA/16;
-        movement_y -= 1 * 24*ticks/TARGET_TICK_DELTA/16;
+        movement_y += 24*ticks/TARGET_TICK_DELTA/16;
     }
 
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
@@ -61,13 +63,13 @@ void update(int ticks) {
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) {
         //backgrounds[0].properties.dst.w *= 100.0 * ticks / 99 / TARGET_TICK_DELTA;
         //backgrounds[0].properties.dst.h *= 100.0 * ticks / 99 / TARGET_TICK_DELTA;
-        //hdma += 1;
+        hdma += 1;
     }
 
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)) {
         //backgrounds[0].properties.dst.w *= 99.0 * ticks / 100 / TARGET_TICK_DELTA;
         //backgrounds[0].properties.dst.h *= 99.0 * ticks / 100 / TARGET_TICK_DELTA;
-        //hdma -= 1;
+        hdma -= 1;
     }
 
 
