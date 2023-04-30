@@ -4,7 +4,7 @@
 gamepad game_controllers[1];
 
 void init(SDL_Renderer* renderer) {
-
+    
     hdma = 0;
 
     gamepad_create(game_controllers, -1);
@@ -63,7 +63,7 @@ void init(SDL_Renderer* renderer) {
     backgrounds[0].tile.h = 16;
     backgrounds[0].map.w = 16;
     backgrounds[0].map.h = 16;
-    backgrounds[0].center.x = AREA_WIDTH/2 * 2;
+    backgrounds[0].center.x = AREA_WIDTH/2 * 1;
     backgrounds[0].center.y = AREA_HEIGHT/2 * 2;
     backgrounds[0].properties.src.x =  0;
     backgrounds[0].properties.src.y = 0;

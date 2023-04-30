@@ -12,6 +12,8 @@
 #define MIN(A,B) ((A>B)?B:A)
 #define MAX(A,B) ((A>B)?A:B)
 
+#define PI 3.14159265359
+
 void update(int ticks);
 void render(SDL_Renderer* renderer, SDL_Texture* output);
 void handle_event(SDL_Event* event);

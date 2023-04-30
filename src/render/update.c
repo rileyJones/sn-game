@@ -2,7 +2,7 @@
 #include "game.h"
 
 
-int movement_x, movement_y;
+double movement_x, movement_y;
 
 void hdma_callback() {
     if(hdma >= 200) {
@@ -12,11 +12,11 @@ void hdma_callback() {
         backgrounds[0].properties.active = SDL_TRUE;
         backgrounds[0].properties.dst.w = (3*hdma - 590);
         backgrounds[0].properties.dst.h = (3*hdma - 590);
-        //backgrounds[0].properties.dst.x = movement_x*backgrounds[0].properties.dst.w/16/16;
-        //backgrounds[0].properties.dst.y = movement_y*backgrounds[0].properties.dst.h/16/16;
-        //hdma++;
-        backgrounds[0].properties.dst.x = movement_x;
-        backgrounds[0].properties.dst.y = movement_y;
+        backgrounds[0].properties.dst.x = movement_x*backgrounds[0].properties.dst.w/16/16;
+        backgrounds[0].properties.dst.y = movement_y*backgrounds[0].properties.dst.h/16/16;
+        hdma++;
+        //backgrounds[0].properties.dst.x = movement_x;
+        //backgrounds[0].properties.dst.y = movement_y;
         if(hdma == AREA_HEIGHT) {
             hdma = 0;
         }
@@ -31,23 +31,23 @@ void hdma_callback() {
 void update(int ticks) {
     gamepad_update(game_controllers);
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_UP)) {
-        //sprites[105].dst.y -= 24*ticks/TARGET_TICK_DELTA/16;
-        movement_y -= 24*ticks/TARGET_TICK_DELTA/16;
+        movement_x += SDL_sin(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
+        movement_y += SDL_cos(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
     }
     
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
-        //sprites[105].dst.y += 24*ticks/TARGET_TICK_DELTA/16;
-        movement_y += 24*ticks/TARGET_TICK_DELTA/16;
+        movement_x -= SDL_sin(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
+        movement_y -= SDL_cos(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
     }
 
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
-        //sprites[105].dst.x -= 24*ticks/TARGET_TICK_DELTA/16;
-        movement_x -= 24*ticks/TARGET_TICK_DELTA/16;
+        movement_x += SDL_cos(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
+        movement_y -= SDL_sin(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
     }
 
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
-        //sprites[105].dst.x += 24*ticks/TARGET_TICK_DELTA/16;
-        movement_x += 24*ticks/TARGET_TICK_DELTA/16;
+        movement_x -= SDL_cos(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
+        movement_y += SDL_sin(backgrounds[0].properties.rotation * PI / 180) * 24.0 * ticks / TARGET_TICK_DELTA / 16;
     }
     
     if(gamepad_button_held(game_controllers, SDL_CONTROLLER_BUTTON_B)) {
