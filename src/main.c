@@ -75,6 +75,7 @@ void main_handle_event(SDL_Window* window, SDL_Event* event) {
         switch(event->key.keysym.scancode) {
             case SDL_SCANCODE_GRAVE:
                 window_scaling_type = (window_scaling_type + 1)%3;
+                SDL_SetWindowMinimumSize(window, AREA_WIDTH, AREA_HEIGHT);
                 return;
             case SDL_SCANCODE_1:
                 window_scaling_type = 3;
@@ -171,13 +172,14 @@ int main(int argc, char** argv) {
         printf("main 1: %s\n", SDL_GetError());
         goto window_failed;
     }
-    SDL_SetWindowMinimumSize(window, AREA_WIDTH, AREA_HEIGHT);
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
     if(renderer == NULL) {
         printf("main 2: %s\n", SDL_GetError());
         goto renderer_failed;
     }
+    
+    SDL_SetWindowMinimumSize(window, AREA_WIDTH, AREA_HEIGHT);
 
     init(renderer);
 
