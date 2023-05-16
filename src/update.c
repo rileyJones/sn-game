@@ -1,6 +1,14 @@
 #include <SDL.h>
 #include "game.h"
 
+
+
+void hdma_callback() {
+
+}
+
+
+
 void update(int ticks) {
-    return;
+    gamepad_update(game_controllers);
 }
