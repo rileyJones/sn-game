@@ -5,9 +5,9 @@
 
 #define TARGET_TICK_DELTA 16
 
-#define AREA_WIDTH 640
-#define AREA_HEIGHT 480
-#define WINDOW_SCALE 1
+#define AREA_WIDTH 240
+#define AREA_HEIGHT 160
+#define WINDOW_SCALE 3
 
 #define MIN(A,B) ((A>B)?B:A)
 #define MAX(A,B) ((A>B)?A:B)
