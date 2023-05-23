@@ -6,16 +6,14 @@
 
 SDL_Texture** sprite_textures;
 tile_data sprites[1024];
-background_data backgrounds[4];
+background_data backgrounds[5];
 int hdma = -1;
-Uint8 clear_r = 0xFF;
-Uint8 clear_g = 0xFF;
-Uint8 clear_b = 0xFF;
+SDL_Color clear_color = {0xFF,0xFF,0xFF,0xFF};
 
 
 void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 5; i++) {
         if(!backgrounds[i].properties.active) {
             continue;
         }
@@ -28,6 +26,7 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                     backgrounds[i].tile.w * backgrounds[i].map.w,
                     backgrounds[i].tile.h * backgrounds[i].map.h);
             SDL_RenderClear(renderer);
+            SDL_SetTextureBlendMode(backgrounds[i].tex, SDL_BLENDMODE_BLEND);
         }
         SDL_SetRenderTarget(renderer, backgrounds[i].tex);
         for(int x = 0; x < backgrounds[i].map.w; x++) {
@@ -47,6 +46,12 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                     draw_dst.y = y * backgrounds[i].tile.h;
                     draw_dst.w = backgrounds[i].tile.w;
                     draw_dst.h = backgrounds[i].tile.h;
+                    
+                    SDL_SetTextureBlendMode(
+                            backgrounds[i].textures[backgrounds[i].data[index].index],
+                            SDL_BLENDMODE_NONE
+                        );
+
 
                     SDL_RenderCopyEx(
                             renderer, 
@@ -55,7 +60,9 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                             &draw_dst,
                             0.0,
                             NULL,
-                            flip);
+                            flip
+                        );
+
                     backgrounds[i].data[index].dirty = SDL_FALSE;
                 }
             }
@@ -170,7 +177,7 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
                 AREA_WIDTH,
                 end_line - line_num);
         SDL_SetRenderTarget(renderer, internal_texture);
-        SDL_SetRenderDrawColor(renderer, clear_r, clear_g, clear_b, 0xFF);
+        SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a);
         SDL_RenderClear(renderer);
         
         for(int p = 3; p >= 0; p--) {
@@ -185,6 +192,9 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
                     render_sprite(renderer, sprites+i, line_num);
                 }
             }
+        }
+        if(backgrounds[4].properties.active) {
+            render_bg(renderer, backgrounds+4, line_num);
         }
 
         SDL_Rect dst_rect;

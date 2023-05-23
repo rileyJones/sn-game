@@ -1,11 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 
+INCLUDE(FindPkgConfig)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
+
 project(game C)
-find_package(SDL2 REQUIRED)
 include_directories(game ${SDL2_INCLUDE_DIRS})
-add_executable(game src/main.c src/update.c src/render.c src/event.c src/gamepad.c src/init.c)
+include_directories(game ${SDL2TTF_INCLUDE_DIRS})
+add_executable(game src/main.c src/update.c src/render.c src/event.c src/gamepad.c src/init.c
+    src/alert.c src/quit.c)
 target_compile_options(game PRIVATE -Wall -Werror -pedantic)
 target_link_libraries(game ${SDL2_LIBRARIES})
+target_link_libraries(game ${SDL2TTF_LIBRARIES})
 
 project(gamepad C)
 include_directories(gamepad ${SDL2_INCLUDE_DIRS})
