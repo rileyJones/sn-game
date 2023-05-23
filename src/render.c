@@ -8,9 +8,7 @@ SDL_Texture** sprite_textures;
 tile_data sprites[1024];
 background_data backgrounds[5];
 int hdma = -1;
-Uint8 clear_r = 0xFF;
-Uint8 clear_g = 0xFF;
-Uint8 clear_b = 0xFF;
+SDL_Color clear_color = {0xFF,0xFF,0xFF,0xFF};
 
 
 void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
@@ -179,7 +177,7 @@ void render(SDL_Renderer* renderer, SDL_Texture* output) {
                 AREA_WIDTH,
                 end_line - line_num);
         SDL_SetRenderTarget(renderer, internal_texture);
-        SDL_SetRenderDrawColor(renderer, clear_r, clear_g, clear_b, 0xFF);
+        SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a);
         SDL_RenderClear(renderer);
         
         for(int p = 3; p >= 0; p--) {

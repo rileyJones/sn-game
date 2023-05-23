@@ -8,20 +8,22 @@ void hdma_callback() {
 }
 
 
-int delay = -1;
-
+int alert_count = 0;
 
 void update(int ticks) {
     gamepad_update(game_controllers);
-    if(!alert_active) {
-        alert("Hello World!!!");
-        delay = 0;
-    } else {
-        delay += ticks;
-        if(delay > 3000 && delay < 5000) {
-            delay = 7000;
-            alert("Hi");
+
+
+    if(alert_active) {
+        if(gamepad_button_pressed(game_controllers, SDL_CONTROLLER_BUTTON_A)) {
+            alert_disable();
         }
-        //printf("Hiya!\n");
+    } else {
+        if(gamepad_button_pressed(game_controllers, SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) {
+            char alert_text[14];
+            alert_count++;
+            snprintf(alert_text, 14, "TEST ALERT %2d", alert_count);
+            alert(alert_text);
+        }
     }
 }

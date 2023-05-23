@@ -7,5 +7,6 @@ extern SDL_bool alert_active;
 void alert_init(SDL_Renderer* renderer);
 void alert_quit();
 void alert(char* text);
+void alert_disable();
 
 #endif

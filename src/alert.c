@@ -118,6 +118,11 @@ void alert_quit() {
     TTF_Quit();
 }
 
+void alert_disable() {
+    backgrounds[4].properties.active = SDL_FALSE;
+    alert_active = SDL_FALSE;
+}
+
 
 void alert(char* text) {
     SDL_Texture* current_target = SDL_GetRenderTarget(alert_renderer);
