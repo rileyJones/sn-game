@@ -48,6 +48,12 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                     draw_dst.y = y * backgrounds[i].tile.h;
                     draw_dst.w = backgrounds[i].tile.w;
                     draw_dst.h = backgrounds[i].tile.h;
+                    
+                    SDL_SetTextureBlendMode(
+                            backgrounds[i].textures[backgrounds[i].data[index].index],
+                            SDL_BLENDMODE_NONE
+                        );
+
 
                     SDL_RenderCopyEx(
                             renderer, 
@@ -56,7 +62,9 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                             &draw_dst,
                             0.0,
                             NULL,
-                            flip);
+                            flip
+                        );
+
                     backgrounds[i].data[index].dirty = SDL_FALSE;
                 }
             }
