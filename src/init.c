@@ -18,7 +18,8 @@ void init(SDL_Renderer* renderer) {
     gamepad_set_key_button(game_controllers, SDL_SCANCODE_APOSTROPHE,          SDL_CONTROLLER_BUTTON_BACK);
     gamepad_set_key_button(game_controllers,          SDL_SCANCODE_A,  SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
     gamepad_set_key_button(game_controllers,          SDL_SCANCODE_S, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-
+    
+    alert_init(renderer);
 }
 
 

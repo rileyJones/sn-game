@@ -200,6 +200,8 @@ int main(int argc, char** argv) {
             }
         }
     }
+    
+    quit();
 
     SDL_DestroyRenderer(renderer);
 renderer_failed:

@@ -25,7 +25,7 @@ typedef struct {
 
 extern SDL_Texture** sprite_textures;
 extern tile_data sprites[1024];
-extern background_data backgrounds[4];
+extern background_data backgrounds[5];
 
 extern int hdma;
 void hdma_callback();
