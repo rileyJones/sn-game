@@ -28,6 +28,7 @@ void prerender_bgs(SDL_Renderer* renderer, SDL_Texture* output) {
                     backgrounds[i].tile.w * backgrounds[i].map.w,
                     backgrounds[i].tile.h * backgrounds[i].map.h);
             SDL_RenderClear(renderer);
+            SDL_SetTextureBlendMode(backgrounds[i].tex, SDL_BLENDMODE_BLEND);
         }
         SDL_SetRenderTarget(renderer, backgrounds[i].tex);
         for(int x = 0; x < backgrounds[i].map.w; x++) {

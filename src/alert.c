@@ -3,8 +3,8 @@
 #include "game.h"
 
 // pre-define
-SDL_Color alert_background_color = {0xFF, 0xFF, 0xFF, 0xFF};
-SDL_Color alert_text_color = {0x00, 0x00, 0x00, 0xFF};
+SDL_Color alert_background_color = {0x00, 0x00, 0x00, 0xFF};
+SDL_Color alert_text_color = {0xFF, 0xFF, 0xFF, 0xFF};
 Uint32 alert_wrap_width = 160;
 const char* alert_font_file = "data/munro/munro-narrow.ttf";
 int alert_ptsize = 10;
@@ -43,6 +43,10 @@ void alert_init(SDL_Renderer* renderer) {
         SDL_Quit();
     }
     
+    for(int i = 0; i < blank_surface->h * blank_surface->pitch; i++) {
+        ((Uint8*)blank_surface->pixels)[i] = 0;
+    }
+    
     backgrounds[4].textures[0] = SDL_CreateTextureFromSurface(
             renderer,
             blank_surface
@@ -54,13 +58,13 @@ void alert_init(SDL_Renderer* renderer) {
     
     SDL_FreeSurface(blank_surface);
     
-    if(0 != SDL_SetTextureBlendMode(
-            backgrounds[4].textures[0],
-            SDL_BLENDMODE_NONE
-        )) {
-        printf("alert 3: %s\n", SDL_GetError());
-        SDL_Quit();
-    }
+//    if(0 != SDL_SetTextureBlendMode(
+//            backgrounds[4].textures[0],
+//            SDL_BLENDMODE_NONE
+//        )) {
+//        printf("alert 3: %s\n", SDL_GetError());
+//        SDL_Quit();
+//    }
     
     
     
